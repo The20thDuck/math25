@@ -1,0 +1,411 @@
+%If you start a line with a "percent" symbol (like %), then that line is a "comment" and won't show up in your actual document.  
+
+%Every document starts with a documentclass. 
+\documentclass[11pt]{article}
+
+%After that, it's useful to list an author and give a title.
+\author{Math 25a}
+\date{Due September 9, 2020 at 5pm} 
+\title{Homework 1}
+
+%Graphicx is used to include pictures in LaTeX files. 
+\usepackage{graphicx}
+
+%The AMS packages. They contain a lot of useful math-related goodies.
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[bottom]{footmisc}
+\usepackage{mathtools}
+
+%This package changes the margins (makes them smaller than the default). 
+\usepackage[margin=1in]{geometry}
+
+%This package gives flexibility to use lettered lists in addition to numbered lists
+\usepackage[shortlabels]{enumitem}
+
+%The below command makes sure that every section starts on a new page. That way if you have a new section for every CA, they'll all print out on separate pieces of paper. 
+\usepackage{titlesec}
+\usepackage{varwidth}
+\newcommand{\sectionbreak}{\clearpage}
+
+%The amsthm package lets you format different types of mathematical ideas nicely. You use it by defining "\newtheorem"s as below:
+\newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{proposition}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[theorem]{Definition}
+\renewcommand*{\proofname}{Solution} %This command changes "Proof" to "Solution" in the proof environment. 
+
+%The "\newcommand" command lets you specify a custom command. This should be used wisely to add semantic meaning to otherwise confusing sequences of commands - not just speed up typing. (If you want suggestions for shortcuts you can ask Thayer).
+%Here is an example definition of a bra and ket from Quantum Mechanics.
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{| #1 \rangle}
+
+%Adding your name here lets you make sure every page has your name, so that your psets don't get mixed up.
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{Warren Sunada-Wong}
+\rhead{Math 25a, Homework 1}
+
+%This changes removes indentation and instead adds space between paragraphs. I think it looks nicer this way. 
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.25ex}
+
+%Cases
+
+\newtheoremstyle{case}{}{}{}{}{}{:}{ }{}
+\theoremstyle{case}
+\newtheorem{case}{Case}
+
+
+%Everything above here is just commands which don't create any main-document text directly.
+%You have to put all your writing within \begin{document} and \end{document} clauses.
+\begin{document}
+
+\maketitle
+
+Topics covered (lectures 1-2): basics of proofs, sets, functions, cardinality
+
+Reminders: 
+\begin{itemize}
+\item Type up your solutions using \LaTeX. See the ``LaTeX office hours'' on the course website for help getting started!
+\item Office hours are strongly recommended! 
+\item Collaboration with others is \emph{emphatically} recommended. Be sure to write up the solutions in your own words and to acknowledge all your collaborators in your write-up.
+\end{itemize}
+
+\section{Part I}
+
+\begin{problem}
+\begin{enumerate}[(a)]
+\item The average of real numbers $a_1, \cdots, a_n$ is given by $$M = \frac{a_1 + \cdots + a_n}{n}.$$ Show that at least one of the numbers $a_j$ satisfies $a_j \ge M$.
+\item Arrange the numbers $1, \cdots, 9$ in a circle. Show that there must exist three adjacent numbers whose sum is at least $16$, no matter which circular arrangement you pick.
+\end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}[(a)]
+    \item Assume that all of the numbers $a_j$ satisfy $a_j < M$.
+    Then \[a_1 + ... + a_n < M + ... + M = nM\]Dividing both sides by n, we get
+    \[\frac{a_1 + ... + a_n}{n} < M\] which is a contradiction.
+    \item 
+        Call the number in spot j in the circle $a_j$. Consider the sums of adjacent numbers:
+        \begin{gather*}
+            s_1 = a_1 + a_2 + a_3\\
+            s_2 = a_2 + a_3 + a_4\\
+            \dots\\
+            s_8 = a_8 + a_9 + a_1\\
+            s_9 = a_9 + a_1 + a_2
+        \end{gather*}
+        Assume that none of $s_j$ is at least 16. Each number $a_j$ appears three times in this list, so the sum of all $s_j$ equals
+        \[S = 3a_1 + ... + 3a_9 = 3(a_1 + ... + a_9)\]
+        The numbers $a_1$ through $a_9$ are a rearrangement of the numbers 1 to 9, so their sum equals 45.
+        \[S = 3(45)=135\] and the average of all $s_j$ is given by
+        \[M = \frac{S}{9} = \frac{135}{9} = 15\]
+        From (a) we know at least one of the numbers $s_j$ satisfies $s_j \geq 15$.
+        Since we assumed $s_j < 16$, and $s_j$ is an integer, all $s_j$ must equal 15. Therefore,
+        \[a_1 + a_2 + a_3 = s_1 = 15 = s_2 = a_2 + a_3 + a_4\]
+        Subtracting $a_2 + a_3$ from both sides we have $a_1 = a_4$ which is a contradiction.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+Consider a set of $n+1$ positive integers, each less than or equal to $2n$. Show there must always exist a pair of integers in the set, one dividing the other. 
+\end{problem} 
+
+\begin{proof}
+    We will prove the thoerem by induction on all n $\in \mathbb{N}$.
+    
+    \textbf{Base Case}: When n = 1, a set of $n + 1 = 2$ positive integers, each less than or equal to $n*1 = 2$ can only be the set \{1, 2\}.
+    $2 = 1*2$, so by the definition of divisibility, $1 \mid 2$.
+    
+    \textbf{Inductive Step}: Suppose the theorem holds for k $\in \mathbb{N}$. 
+    We will prove the theorem
+    for the case k+1. Consider a set, S, of k+2 positive integers, each less 
+    than or equal to $2(k+1) = 2k + 2$. 
+    If S contains neither or only one of 2k+1 and 2k+2, then the remaining k+2 or k+1 elements
+    $\leq$ 2k, so by the inductive hypothesis, at least one pair of the first k+1 elements
+    must have one dividing the other. So assume S contains both 2k+1 and 2k+2.
+
+    We know the remaining k elements are less 
+    than or equal to 2k. First, if S contains k+1, then we're done because
+    $2k+2 = 2*(k+1)$ so $k+1 \mid 2k+2$. So assume S does not contain k+1.
+    We assert that if a set S with elements less than or equal to 2k contains k+1, 
+    it is "equivalent" to have 2k+2 instead of k+1.\footnote{Eric Yan gave me a hint 
+    about this equivalence.} We define this equivalence more
+    formally in Theorem \ref{switcheroo}.
+    \begin{theorem}
+        \label{switcheroo}
+    If a set S with elements less than or equal to 2k contains k+1 
+    and has a pair of
+    numbers $(a_1, b_2)$ with $a_1 \mid b_1$, then removing k+1 and inserting 2k+2 will 
+    still leave a pair of numbers $(a_2, b_2)$ with $a_2 \mid b_2$.
+    
+    First, if neither $a_1$ nor $b_1$ equals k+1, then simply $a_2 = a_1, b_2 = b_1$ and $a_2 \mid b_2$
+    
+    Note, $a_1 \neq k + 1$ because $a_1 = k + 1 \implies b_2 = r(k+1)$ for some integer r.
+    Since r is positive and $r \neq 1$, we know $b_2 \geq 2k+2 > 2k$
+    which is a contradiction.
+
+    If $b_1 = k+1$, then we know $k+1 = ra_1$ for some integer r. Therefore, $2k+2 = (2r)a_1$ where $2r$
+    is also an integer. Then $a_2 = a_1, b_2 = 2k+2$ satisfies $a_2 \mid b_2$. This completes the proof.
+    \end{theorem}
+    By the inductive hypothesis, we know that any set S containing k+1 elements $\leq$ 2k including the element k+1
+    must have a pair with one element dividing the other. From Theorem \ref{switcheroo}, we deduce that
+    any set S containing k elements $\leq$ 2k plus the element 2k+2 must have a pair with one 
+    element dividing the other.
+
+    Thus, the theorem is true for k+1, and the inductive step is complete.
+        
+    \textbf{Conclusion}: By induction, the theorem holds for all n $\in \mathbb{N}$
+    
+\end{proof}
+
+\begin{problem}
+Show that there is no rational number $r$ satisfying $r^3 + r + 1 = 0$. 
+\end{problem}
+
+\begin{proof}
+    Assume there is a rational number $r=\frac{a}{b}$ where a and b share no 
+    common divisor, satisfying $r^3 + r + 1 = 0$. Then, 
+    \[r^3 + r + 1 = (\frac{a}{b})^3 + \frac{a}{b} + 1 = \frac{a^3 + ab^2 + b^3}{b^3} = 0\]
+    Multiplying both sides by $b^3$ gives
+    \[a^3 + ab^2 + b^3 = 0\]
+    If a is odd and b is odd, then the lefthand side is odd, which is a contradiction. 
+    Similarly, if a is odd and b is even, then the lefthand side is odd, which is a 
+    contradiction. The same applies if a is even and b is odd. This leaves
+    a even and b even, which is a contradiction because even numbers share the common divisor 2.
+    Thus, in all cases we have a contradiction, so there is no rational number satisfying 
+    $r^3 + r + 1 = 0$. 
+
+\end{proof}
+
+\section{Part II}
+
+\begin{problem}
+Suppose that five $1$s and four $0$s are arranged around a circle. Form a new circle by placing a $0$ between any two unequal adjacent numbers and a $1$ between any two equal values before then erasing the original values. Show that, no matter how many times you repeat this and no matter what the initial configuration is, you will never get a circle of all $0$s.
+\end{problem}
+
+\begin{proof}
+    Assume it is possible to form a circle of all 0s. Consider the 
+    previous circle from which
+    the circle of 0s was formed. By the rules of formation, the only way to get 
+    a 0 is by having two unequal adjacent numbers, so 
+    every adjacent number $a_j$ must be unequal. If $a_1 = 0$ then
+    \begin{gather*}
+        a_1 = 0\\
+        a_2 = 1\\
+        \dots\\
+        a_9 = 0
+    \end{gather*}
+    and we have a contradiction because $a_1$ and $a_9$ are adjacent
+    and $a_1$ = 0 = $a_9$. The same argument applies if $a_1 = 1$ since we have
+    \begin{gather*}
+        a_1 = 1\\
+        a_2 = 0\\
+        \dots\\
+        a_9 = 1
+    \end{gather*}
+    Thus, it is impossible to get a circle of all 0s.
+    
+\end{proof}
+
+\begin{problem}
+A guest at a party is a \emph{celebrity} if this person is known by every other guest but knows none of them. There is at most one celebrity at a party -- if there were two, they would have to know each other, making neither a celebrity by the above definition. On the other hand, it is certainly possible that no guest is a celebrity. Devise a method for finding the celebrity at a party of $n$ people which involves only asking questions of the form ``Person $A$, do you know Person $B$?'' and which takes no more than $3(n-1)$ questions.
+\end{problem}
+
+\begin{proof}
+    \footnote{I worked on this problem with Dylan Hu.}
+    We devise a method for finding the celebrity which consists of two parts:
+    \begin{enumerate}[1.]
+        \item Narrow the potential celebrities to just one person in n-1 questions.
+        \item Verify whether that person is actually a celebrity in at most 2n-2 questions.
+    \end{enumerate}
+    In total, this method takes at most $3n-3$ questions which is no more than 3(n-1).
+
+    \textbf{Part 1: Narrow the Potential Celebrities in n-1 questions}
+    
+    Note that the answer to the question "Person A, do you know Person B"
+    eliminates either A or B as a potential celebrity. If Person A knows Person B, then
+    Person A cannot be a celebrity by definition. If Person A does not know Person B,
+    then Person B cannot be a celebrity by definition.
+
+    We devise a method of narrowing the potential celebrities to just one person. 
+    The method consists of 
+    repeatedly asking two arbitrary potential celebrities A and B if A knows B
+    until we are left with just one potential celebrity. We prove
+    the correctness of this method by induction for all $n \in \mathbb{N}$.
+
+    \textbf{Base Case}: If n = 1, we have only one potential celebrity 
+    and we're done in $n-1 = 0$ questions.
+
+    \textbf{Inductive Step}: Suppose the method narrows $k \in \mathbb{N}$ 
+    potential celebrities
+    to just one in k-1 questions. Consider a party of k+1 people. 
+    Since $k + 1 > 2$, we can choose two arbitrary
+    people A and B. Then we ask if A knows B. As noted above, the answer must
+    eliminate either A or B as a potential celebrity. This leaves us with k potential
+    celebrities. By the inductive hypothesis, the method takes k-1 questions to narrow down
+    those k potential celebrities
+    to exactly one potential celebrity, so we have k questions in total. This completes the
+    inductive step.
+
+    \textbf{Conclusion}: By induction, the method narrows n potential celebrities
+    to just one person in n-1 questions for all n $\in \mathbb{N}$
+
+    \textbf{Part 2: Verify the Celebrity in at most 2n-2 questions}
+    By definition, if every other guest knows person A but A knows nobody, then
+    A is a celebrity. Therefore we can verify if A is a celebrity by asking 
+    each of the other n-1 guests if they know A, then asking A if they know
+    all of the other n-1 guests. This takes 2n-2 questions in total.
+    By definition, if any guest B does not know A or A knows B,
+    A cannot be a celebrity, so there is no celebrity.
+    Otherwise, all guests know A and A knows nobody, so by definition A is
+    a celebrity. Note that the method can optionally end earlier by
+    terminating if any guest B does not know A or if A knows B, because
+    then A cannot be a celebrity regardless of the answers to 
+    the other questions. The method
+    can also optionally use fewer questions by skipping any questions which were already
+    asked in Part 1.
+
+    Putting Parts 1 and 2 together gives us a method which works in at most 3n-3 questions.
+
+\end{proof}
+
+\begin{problem}
+Let $A$ and $B$ be subsets of a set $X$. Show $(A\cup B)^c=A^c\cap B^c$ and $(A\cap B)^c=A^c\cup B^c$.
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}[(a)]
+        \item We will show that $x \in (A \cup B)^c \implies x \in A^c \cap B^c$ 
+        and $x \in A^c \cap B^c \implies x \in (A \cup B)^c$
+
+        First, $x \in (A \cup B)^c \implies x \notin A \cup B$.
+        Assume $x \in A$, then by definition $x \in A \cup B$ which is a contradiction,
+        so $x \notin A$ and $x \in A^c$. By the same argument $x \in B^c$. By definition 
+        ($x \in A^c$ and $x \in B^c) \implies x \in A^c \cap B^c$
+
+        Similarly, $x \in A^c \cap B^c \implies (x \in A^c$ and $x \in B^c) 
+        \implies (x \notin A$ and $x \notin B)$. Assume $x \notin (A \cup B)^c$. Then 
+        $x \in A \cup B$ and either $x \in A$ which is a contradiction or $x \in B$ which
+        is a contradiction. Therefore $x \in (A \cup B)^c$
+
+        \item We will show that $x \in (A \cap B)^c \implies x \in A^c \cup B^c$ 
+        and $x \in A^c \cup B^c \implies x \in (A \cap B)^c$
+
+
+    \end{enumerate}
+\end{proof}
+
+
+
+\section{Part III}
+
+
+
+\begin{problem}[Simmons 1.1.3]
+\begin{enumerate}[(a)]
+\item The set $X=\{1\}$ has two subsets: the empty set $\emptyset$ and $X$ itself. If $A$ and $B$ are arbitrary subsets of $X$, then there are four possible relations of the form $A\subset B$. Count the number of true relations among these. 
+\item The set $X=\{1,2\}$ has four subsets. List them. If $A$ and $B$ are arbitrary subsets of $X$, then there are 16 possible relations of the form $A\subset B$. Count the number of true relations among these. 
+\item The set $X=\{1,2,3\}$ has eight subsets. List them. If $A$ and $B$ are arbitrary subsets of $X$, then there are 64 possible relations of the form $A\subset B$. Count the number of true relations among these. 
+\item Let $X=\{1,\ldots,n\}$ for an arbitrary integer $n$. How many subsets are there? If $A$ and $B$ are arbitrary subsets of $X$, how many relations of the form $A\subset B$ are there? Based on the evidence you've collected, guess how many relations are true. Prove it. 
+\end{enumerate}
+\end{problem}
+
+\begin{proof}
+\end{proof}
+
+For functions $f:X\rightarrow Y$ and $h:Y\rightarrow Z$ defined on sets $X,Y,Z$, the \emph{composition}, denoted $h\circ f$ or $hf$, is the function $x\mapsto h(f(x))$. Two mappings $f:X\rightarrow Y$ and $g:X\rightarrow Y$ are said to be \emph{equal}, denoted $f=g$, if $f(x)=g(x)$ for every $x\in X$. For any set $X$, the \emph{identity function} $i_X:X\rightarrow X$ is defined by $i_X(x)=x$ for every $x\in X$.
+
+
+\begin{problem}[Simmons 1.3.3]
+Let $X$ and $Y$ be nonempty sets and $f:X\rightarrow Y$ a mapping. 
+\begin{enumerate}[(a)]
+\item Show that $f$ is injective if and only if there exists a mapping $g:Y\rightarrow X$ so that $gf=i_X$. 
+\item Show that $f$ is surjective if and only if there exists a mapping $h:Y\rightarrow X$ so that $fh=i_Y$. 
+\end{enumerate}
+\end{problem} 
+
+\begin{proof}
+\end{proof}
+
+\begin{problem}
+Let $X_1,X_2,\ldots$ be a collection of countable sets. Prove that $\bigcup_{n\in\mathbb N}X_n$ is countable.
+\end{problem}
+
+\begin{proof}
+
+\end{proof}
+
+
+
+
+
+\section{Part IV}
+
+\begin{problem}
+Explain why there are countably many points in $\mathbb R^2$ with rational coordinates. 
+\end{problem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{problem}[Fundamental theorem of caveman math] Let $m,n\ge1$ be integers. The point of this problem is to prove that if the sets $\{1,\ldots,m\}$ and $\{1,\ldots,n\}$ have the same cardinality, then $m=n$. For brevity, denote $\{1,\ldots,n\}$ by $[n]$. Show each of the following.
+\begin{enumerate}[(a)]
+\item If $f:[m]\rightarrow \{1\}$ is a bijection, then $m=1$. 
+\item Fix $k\in[n]$. Define a bijection $g:[n]\rightarrow[n]$ such that $g(k)=n$ and $g(n)=k$. 
+\item If $f:[m]\rightarrow[n]$ is a bijection, then there exists another bijection $f':[m]\rightarrow [n]$ so that $f'(m)=n$. 
+\item If $f:[m]\rightarrow[n]$ is a bijection and $f(m)=n$, then the restriction of $f$ to $[m-1]$ defines a bijection $[m-1]\rightarrow[n-1]$. 
+\end{enumerate} 
+Use induction on $n$ (and the above) to prove that $\text{card}([m])=\text{card}([n])$ implies $m=n$. 
+\end{problem}
+
+\begin{proof}
+\end{proof}
+
+
+
+\begin{problem}
+Prove Cantor's theorem: for any set $X$, there is no surjection $f:X\rightarrow P(X)$. Hint: try to mimic the argument of Russell's paradox (the proof is not long). 
+\end{problem}
+
+\begin{proof}
+
+\end{proof}
+
+
+
+\section{LaTeX Guide}
+
+If you want to define a piecewise function, here's one way to do it: 
+\[f(x)=\begin{cases}
+1&x\ge0\\
+0&x<0.
+\end{cases}\]
+
+When you write out a string of equations, sometimes, it's nice to list the equations horizontally, as follows: 
+\[\begin{array}{ccl}
+(x+y)(z+w)&=&(x+y)z+(x+y)w\\[2mm]
+&=&(xz+yz)+(xw+yw)\\[2mm]
+&=&xz+yz+xw+yw
+\end{array}\]
+
+The number of subsets of size $k$ of a set of size $n$ is ${n\choose k}=\frac{n!}{k!(n-k)!}$. These numbers are also known as the binomial coefficients because 
+\[(x+y)^n=\sum_{k=0}^n{n\choose k}x^ky^{n-k}.\]
+This is known as the binomial theorem. 
+
+You can make tables in LaTeX: 
+
+\begin{center}
+\begin{tabular} {c|c|c}
+$a_{11}$ &$a_{12}$ & $a_{13}$\\\hline
+$a_{21}$&$a_{22}$&$a_{23}$\\\hline
+$a_{31}$&$a_{32}$&$a_{33}$
+\end{tabular}
+\end{center}
+
+\end{document}
